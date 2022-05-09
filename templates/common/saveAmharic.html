@@ -1,0 +1,17 @@
+{% extends './common/base.html' %} {% block title %} amharic document &dash; saved {% endblock %} {%
+block body %}
+<div class="card card-main">
+  <div class="card" style="width: 18rem">
+    <a href="{{url_for('home')}}">
+      <img src="../../static/design/img/document.JPG" class="card-img-top" alt="..." />
+    </a>
+    <div class="card-body">
+      <h5 class="card-title text-center">{{message}}</h5>
+        <a href="{{url_for('downloadAmharic')}}" class="btn btn-primary">
+          <span><svg class="bi" width="20" height="20" fill="currentColor">
+          <use xlink:href="../../static/design/img/bootstrap-icons.svg#cloud-download-fill"/>
+        </svg> Download</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

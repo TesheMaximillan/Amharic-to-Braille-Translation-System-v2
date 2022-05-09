@@ -1,0 +1,39 @@
+{% extends './common/base.html' %} {% block title %} braille document {% endblock %} 
+{%block body %}
+<header class="container fixed-top">
+  {% include './common/headerNav.html' %}
+  <nav class="navbar navbar2">
+    <div class="container-fluid justify-content-end">
+      {% if translatedFile %}
+      <button form="save" type="submit" class="btn btn-secondary mx-2" aria-current="page">
+        <span><svg class="bi" width="20" height="20" fill="currentColor">
+        <use xlink:href="../../static/design/img/bootstrap-icons.svg#save2-fill"/>
+      </svg></span> Save</button>
+      {% endif %}
+      <a class="btn btn-danger" aria-current="page" href="{{url_for('home')}}">
+        <span><svg class="bi" width="20" height="20" fill="currentColor">
+        <use xlink:href="../../static/design/img/bootstrap-icons.svg#x-square-fill"/>
+      </svg></span> Exit</a>
+    </div>
+  </nav>
+</header>
+<main>
+  <div class="text-header"></div>
+  {% if translatedFile %}
+  <form action="/saveBraille" method="post" class="content-form" id="save">
+    <textarea 
+      class="braille-text-area"
+      name="char"
+      autofocus
+      >{% for translatedTextInPage in translatedFile %}{% for char in translatedTextInPage %}{{ char }}{% endfor %}{% endfor %}</textarea>
+  </form>
+  {% else  %}
+    <textarea
+    class="braille-text-area"
+    style="color: red"
+    disabled
+    >No Amharic Text is Found!!!</textarea>
+{% endif %}
+  <div class="text-footer"></div>
+</main>
+{% include './common/footer.html' %} {% endblock %}

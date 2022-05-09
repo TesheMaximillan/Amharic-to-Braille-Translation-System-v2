@@ -1,0 +1,76 @@
+{% extends './common/base.html' %} {% block title %} amharic document {% endblock %} 
+{% block body %}
+<header class="container fixed-top">
+  {% include './common/headerNav.html' %}
+  <nav class="navbar navbar2">
+    <div class="container-fluid justify-content-end">
+      {% if extractedText %}
+      <button form="save" type="submit" class="btn btn-secondary mx-2" aria-current="page">
+        <span><svg class="bi" width="20" height="20" fill="currentColor">
+        <use xlink:href="../../static/design/img/bootstrap-icons.svg#save2-fill"/>
+      </svg></span> Save</button>
+      {% endif %}
+      <button form="form" type="submit" class="btn btn-warning" aria-current="page">
+        <span><svg class="bi" width="20" height="20" fill="currentColor">
+        <use xlink:href="../../static/design/img/bootstrap-icons.svg#translate"/>
+      </svg></span> Translate</button>
+    </div>
+  </nav>
+</header>
+<main>
+{% if newFile%}
+<form action="/brailleDocument" method="post" class="content-form" id="form">
+  <textarea
+  class="amh-text-area"
+  name="text"
+  autofocus
+  placeholder="አማርኛ ፅሑፍ ..."></textarea>
+</form>
+{% elif extractedText %}
+  <form action="/brailleDocument" method="post" class="content-form" id="form">
+    {% for text in extractedText %}
+      <textarea
+        class="amh-text-area"
+        name="text{{extractedText.index(text)+1}}"
+        autofocus
+        placeholder="አማርኛ ፅሑፍ ..."
+      >{{ text }}</textarea> 
+      <small style="margin-left: 50%;">page-{{extractedText.index(text)+1}}</small>
+    {% endfor %}
+  </form>
+  <form action="/saveAmharic" method="post" class="content-form" id="save">
+    {% for text in extractedText %}
+      <textarea
+        class="amh-text-area-saved"
+        name="text{{extractedText.index(text)+1}}"
+        autofocus
+        placeholder="አማርኛ ፅሑፍ ..."
+      >{{ text }}</textarea> 
+    {% endfor %}
+  </form>
+{% elif importFile %}
+  {% if importFile == 'No file name' or  importFile == 'file is not supported'%}
+    <textarea class="amh-text-area" style="color: red" disabled>{{importFile}}</textarea>
+  {% else %}
+    <form action="/brailleDocument" method="post" class="content-form" id="form">
+      <textarea
+        class="amh-text-area"
+        name="text"
+        autofocus
+        placeholder="አማርኛ ፅሑፍ ...">{{importFile}}</textarea>
+    </form>
+
+  {% endif %}
+{% else %}
+<form action="/brailleDocument" method="post" class="content-form" id="form">
+  <textarea
+    class="amh-text-area"
+    style="color: red"
+    name="error"
+    disabled
+  >No Image File is Selected</textarea>
+</form>
+{% endif %}
+</main>
+{% include './common/footer.html' %} 
+{% endblock %}

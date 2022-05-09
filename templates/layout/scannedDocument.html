@@ -1,0 +1,40 @@
+{% extends './common/base.html' %}{% block title %} scan document {% endblock %}
+{% block body %}
+      <header class="container fixed-top">
+          {% include './common/headerNav.html' %}
+        <nav class="navbar navbar2">
+          <div class="container-fluid justify-content-end">
+              <a class="btn btn-warning" aria-current="page" href="{{url_for('amharic', source='uploadFile')}}">
+                <span><svg class="bi" width="20" height="20" fill="currentColor">
+                <use xlink:href="../../static/design/img/bootstrap-icons.svg#translate"/>
+              </svg></span>
+                Transform</a>
+          </div>
+        </nav>
+      </header>
+      <main>
+        {%if imageFileError %}
+          <p style="color: red; text-align: center;">{{imageFileError}}</p>
+        {% else %}
+        <div class="album">
+          <div class="container upload-container">      
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3">
+              {% for imageName in imageNames %}
+              <div class="col">
+                <div class="card shadow-sm">
+                  <img class="bd-placeholder-img card-img-top" width="100%" height="150" src="{{ url_for('sendImage', filename=imageName)}}" role="img" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small class="text-muted">Page - {{imageNames.index(imageName) + 1}}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endif %}      
+      </main>
+{% include './common/footer.html' %}
+{% endblock %}
